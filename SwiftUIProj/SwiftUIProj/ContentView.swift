@@ -13,33 +13,39 @@ struct ContentView: View {
     @ObservedObject private var locationManager = LocationManager()
     
     var body: some View {
-        VStack {
-            WeatherInfoView()
-                .padding()
-            WeatherAdditionalInfoView()
-                .padding()
-            Divider()
-            WeatherDayView()
-                .padding()
-                .onAppear(perform: {
-                    Task {
-                        await weatherViewModel.retrieveCurrentWeather(for: "1", coordinate: getCoordinate())
-                    }
-                })
-            Divider()
-            ForecastWeatherView()
-                .background(Color(.white))
-                .cornerRadius(20)
-                .padding(.top)
+        ZStack {
+            Color.customBackgroundColor
                 .ignoresSafeArea()
+            if weatherViewModel.isLoading {
+                LoadingView()
+            } else if [Error.badRequest.rawValue,
+                       Error.backEndIssue.rawValue,
+                       Error.redirection.rawValue].contains(weatherViewModel.localizedError) {
+                LoadingView()
+                Text("Found an issue, please reload application")
+            } else {
+                WeatherInfoView(currentView: weatherViewModel.dayForecast)
+            }
         }
-        .background(Color(red: 101 / 255.0, green: 78 / 255.0, blue: 146 / 255.0)
-            .ignoresSafeArea())
+        .onAppear(perform: {
+            Task {
+                await weatherViewModel.fetchCurrentWeather(coordinate: getCoordinate())
+            }
+        })
+        .padding()
+        .background(Color.customBackgroundColor)
     }
     
     private func getCoordinate() -> CLLocationCoordinate2D {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location!.coordinate : CLLocationCoordinate2D()
         return coordinate
+    }
+}
+
+struct LoadingView: View {
+    var body: some View {
+        ProgressView()
+            .scaleEffect(2)
     }
 }
 

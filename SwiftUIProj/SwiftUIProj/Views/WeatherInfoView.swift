@@ -8,29 +8,54 @@
 import SwiftUI
 
 struct WeatherInfoView: View {
+    var currentView: CurrentWeather?
+    
+    private var currentTemperature: Int {
+        return kelvinToCelsius(currentView?.main.temp ?? 0)
+    }
+    
+    private var currentDescription: String {
+        if let currentWeather = currentView?.weather.first {
+            return (currentWeather?.description ?? "").capitalized
+        }
+        return ""
+    }
+    
+    private var currentMaxTemp: Int {
+        return kelvinToCelsius(currentView?.main.temp_max ?? 0)
+    }
+    
+    private var currentMinTemp: Int {
+        return kelvinToCelsius(currentView?.main.temp_min ?? 0)
+    }
+    
     var body: some View {
         VStack {
-            Text("Antalya")
+            Text(currentView?.name ?? "")
                 .font(.largeTitle)
                 .foregroundColor(.white)
-            Text("25*C")
+            Text("\(currentTemperature)")
                 .font(.system(size: 70))
                 .foregroundColor(.white)
-            Text("Partly Cloudy")
+            Text(currentDescription)
                 .font(.title2)
                 .foregroundColor(.white)
             HStack {
-                Text("H: 29*")
+                Text("H: \(currentMaxTemp)")
                     .foregroundColor(.white)
-                Text("L: 15*")
+                Text("L: \(currentMinTemp)")
                     .foregroundColor(.white)
             }
         }.fontWeight(.bold)
+    }
+    
+    private func kelvinToCelsius(_ kelvin: Double) -> Int {
+        return (kelvin - 273.15).toInt
     }
 }
 
 struct WeatherInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherInfoView()
+        WeatherInfoView(currentView: nil)
     }
 }
