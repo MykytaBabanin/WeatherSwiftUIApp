@@ -9,48 +9,47 @@ import SwiftUI
 import CoreLocation
 
 struct ContentView: View {
-    @StateObject private var weatherViewModel = WeatherViewModel()
+    @StateObject private var searchResultsViewModel = SearchResultsViewModel()
     @ObservedObject private var locationManager = LocationManager()
+    @State private var searchText = ""
+    
+    let weatherViewModel: any WeatherSearchProtocol
     
     var body: some View {
-        ZStack {
-            Color.customBackgroundColor
-                .ignoresSafeArea()
-            if weatherViewModel.isLoading {
-                LoadingView()
-            } else if [Error.badRequest.rawValue,
-                       Error.backEndIssue.rawValue,
-                       Error.redirection.rawValue].contains(weatherViewModel.localizedError) {
-                LoadingView()
-                Text("Found an issue, please reload application")
-            } else {
-                WeatherInfoView(currentView: weatherViewModel.dayForecast)
+        VStack {
+            ZStack {
+                Color.purpleBackgroundColor
+                    .ignoresSafeArea()
+                switch weatherViewModel.requestState {
+                case .loading:
+                    LoadingView()
+                case .error(let error):
+                    Text("Error fetching weather data \(error.rawValue)")
+                case .success:
+                    WeatherInfoView(currentView: weatherViewModel.dayForecast)
+                }
             }
+            .onAppear(perform: {
+                Task {
+                    await weatherViewModel.fetchCurrentWeather(coordinate: getCoordinates())
+                }
+            })
+            SearchView(weatherViewModel: weatherViewModel)
+                .dismissKeyboardOnTap()
+            
         }
-        .onAppear(perform: {
-            Task {
-                await weatherViewModel.fetchCurrentWeather(coordinate: getCoordinate())
-            }
-        })
-        .padding()
-        .background(Color.customBackgroundColor)
+        .background(Color.blueBackgroundColor)
+        .dismissKeyboardOnTap()
     }
     
-    private func getCoordinate() -> CLLocationCoordinate2D {
+    private func getCoordinates() -> CLLocationCoordinate2D {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location!.coordinate : CLLocationCoordinate2D()
         return coordinate
     }
 }
 
-struct LoadingView: View {
-    var body: some View {
-        ProgressView()
-            .scaleEffect(2)
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(weatherViewModel: WeatherViewModel())
     }
 }

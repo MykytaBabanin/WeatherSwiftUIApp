@@ -14,25 +14,38 @@ enum Error: String, CodingKey {
     case backEndIssue = "Server Error"
 }
 
-extension ContentView {
-    @MainActor class WeatherViewModel: ObservableObject {
-        @Published var dayForecast: CurrentWeather?
-        @Published var isLoading = false
-        @Published var localizedError = ""
-        
-        func fetchCurrentWeather(coordinate: CLLocationCoordinate2D) async {
-            isLoading = true
-            guard let url = URL(string: "\(Secrets.baseUrl)/weather?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=\(Secrets.apiKey)") else { return }
-            let urlRequest = URLRequest(url: url)
-            do {
-                let (data, response) = try await URLSession.shared.data(for: urlRequest)
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else { return }
-                let currentWeather = try JSONDecoder().decode(CurrentWeather.self, from: data)
-                self.dayForecast = currentWeather
-            } catch(let error) {
-                localizedError = error.localizedDescription
+enum RequestState {
+    case loading
+    case error(Error)
+    case success
+}
+
+protocol WeatherSearchProtocol: ObservableObject {
+    nonisolated var requestState: RequestState { get }
+    nonisolated var dayForecast: CurrentWeather? { get }
+    func fetchCurrentWeather(coordinate: CLLocationCoordinate2D) async
+}
+
+@MainActor
+class WeatherViewModel: WeatherSearchProtocol {
+    @Published var dayForecast: CurrentWeather?
+    @Published var requestState: RequestState = .loading
+    
+    func fetchCurrentWeather(coordinate: CLLocationCoordinate2D) async {
+        requestState = .loading
+        guard let url = URL(string: "\(Secrets.baseUrl)/weather?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=\(Secrets.apiKey)") else { return }
+        let urlRequest = URLRequest(url: url)
+        do {
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                requestState = .error(.badRequest)
+                return
             }
-            isLoading = false
+            let currentWeather = try JSONDecoder().decode(CurrentWeather.self, from: data)
+            self.dayForecast = currentWeather
+            requestState = .success
+        } catch(_) {
+            requestState = .error(.backEndIssue)
         }
     }
 }

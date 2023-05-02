@@ -34,17 +34,26 @@ struct WeatherInfoView: View {
             Text(currentView?.name ?? "")
                 .font(.largeTitle)
                 .foregroundColor(.white)
-            Text("\(currentTemperature)")
-                .font(.system(size: 70))
+            Text("\(currentTemperature)°")
+                .font(.system(size: 100))
                 .foregroundColor(.white)
+                .padding(.leading, 25)
             Text(currentDescription)
                 .font(.title2)
                 .foregroundColor(.white)
             HStack {
-                Text("H: \(currentMaxTemp)")
-                    .foregroundColor(.white)
-                Text("L: \(currentMinTemp)")
-                    .foregroundColor(.white)
+                HStack {
+                    Image(systemName: "thermometer.sun.fill")
+                        .foregroundColor(.red)
+                    Text("\(currentMaxTemp)°")
+                        .foregroundColor(.white)
+                }
+                HStack {
+                    Image(systemName: "thermometer.snowflake")
+                        .foregroundColor(.blue)
+                    Text("\(currentMinTemp)°")
+                        .foregroundColor(.white)
+                }
             }
         }.fontWeight(.bold)
     }
@@ -54,8 +63,3 @@ struct WeatherInfoView: View {
     }
 }
 
-struct WeatherInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        WeatherInfoView(currentView: nil)
-    }
-}

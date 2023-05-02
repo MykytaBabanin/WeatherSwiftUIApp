@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB7FB8322A015DDB00812C0A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7FB8312A015DDB00812C0A /* SearchView.swift */; };
+		BB7FB8362A019A1A00812C0A /* cities.txt in Resources */ = {isa = PBXBuildFile; fileRef = BB7FB8352A019A1A00812C0A /* cities.txt */; };
+		BB7FB8402A01A0B400812C0A /* SearchResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7FB83F2A01A0B400812C0A /* SearchResultsViewModel.swift */; };
 		BBE6D24829FD6C2500EBD9AF /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE6D24729FD6C2500EBD9AF /* Helpers.swift */; };
 		BBE6D24A29FD6F7500EBD9AF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE6D24929FD6F7500EBD9AF /* Secrets.swift */; };
 		BBE6D24E29FD71D500EBD9AF /* CurrentWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE6D24D29FD71D500EBD9AF /* CurrentWeatherModel.swift */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BB7FB8312A015DDB00812C0A /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		BB7FB8352A019A1A00812C0A /* cities.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = cities.txt; path = ../../../../Downloads/cities.txt; sourceTree = "<group>"; };
+		BB7FB83F2A01A0B400812C0A /* SearchResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewModel.swift; sourceTree = "<group>"; };
 		BBE6D24729FD6C2500EBD9AF /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		BBE6D24929FD6F7500EBD9AF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		BBE6D24D29FD71D500EBD9AF /* CurrentWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherModel.swift; sourceTree = "<group>"; };
@@ -58,6 +64,7 @@
 			children = (
 				E916623729F81EF50065FF8A /* WeatherViewModel.swift */,
 				E9CF178829F9568900A815C2 /* LocationManager.swift */,
+				BB7FB83F2A01A0B400812C0A /* SearchResultsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -88,6 +95,7 @@
 				BBE6D24729FD6C2500EBD9AF /* Helpers.swift */,
 				BBE6D24929FD6F7500EBD9AF /* Secrets.swift */,
 				E945893526B2BE700047538B /* SwiftUIProjApp.swift */,
+				BB7FB8352A019A1A00812C0A /* cities.txt */,
 				E945893926B2BE720047538B /* Assets.xcassets */,
 				E945893E26B2BE720047538B /* Info.plist */,
 				E945893B26B2BE720047538B /* Preview Content */,
@@ -107,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				E916622F29F80E1F0065FF8A /* WeatherInfoView.swift */,
+				BB7FB8312A015DDB00812C0A /* SearchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -170,6 +179,7 @@
 			files = (
 				E945893D26B2BE720047538B /* Preview Assets.xcassets in Resources */,
 				E945893A26B2BE720047538B /* Assets.xcassets in Resources */,
+				BB7FB8362A019A1A00812C0A /* cities.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E945893826B2BE700047538B /* ContentView.swift in Sources */,
+				BB7FB8322A015DDB00812C0A /* SearchView.swift in Sources */,
 				BBE6D24A29FD6F7500EBD9AF /* Secrets.swift in Sources */,
 				E945893626B2BE700047538B /* SwiftUIProjApp.swift in Sources */,
 				E916623829F81EF50065FF8A /* WeatherViewModel.swift in Sources */,
@@ -188,6 +199,7 @@
 				E9CF178929F9568900A815C2 /* LocationManager.swift in Sources */,
 				E916623029F80E1F0065FF8A /* WeatherInfoView.swift in Sources */,
 				BBE6D24E29FD71D500EBD9AF /* CurrentWeatherModel.swift in Sources */,
+				BB7FB8402A01A0B400812C0A /* SearchResultsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,9 +329,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftUIProj/Preview Content\"";
+				DEVELOPMENT_TEAM = 8C6338U8JH;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftUIProj/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -338,9 +351,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftUIProj/Preview Content\"";
+				DEVELOPMENT_TEAM = 8C6338U8JH;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftUIProj/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
